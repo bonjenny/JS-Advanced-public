@@ -2,7 +2,7 @@ export class Queue {
     constructor(items) {
         this.storage = { ...items };
         this.front = 0;
-        this.rear = items.length;
+        this.rear = Object.keys(items).length;
     }
     
     size() {
@@ -31,8 +31,13 @@ export class Queue {
     }
 
     getNext(item) {
-        let key = Object.keys(this.storage).find(key => this.storage[key] === item);
-        return this.storage[++key % 3];
+        let keys = Object.keys(this.storage);
+        for (var i=0; i < keys.length; i++) {
+            const key = keys[i]
+            if (this.storage[key] === item) break;
+        }
+        const key = keys[++i % 3];
+        return this.storage[key];
     }
 }
 
