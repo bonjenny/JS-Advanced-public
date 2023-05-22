@@ -1,0 +1,666 @@
+﻿JS는 EFE팀 이용희 책임님
+
+10분만에 C# rest api server 만들기
+https://manniz.tistory.com/entry/C-CSharp-10%EB%B6%84%EB%A7%8C%EC%97%90-rest-api-server-%EB%A7%8C%EB%93%A4%EA%B8%B0-rest-api-server-example
+
+ASP.NET Core를 사용하여 api server 만들기
+https://learn.microsoft.com/ko-kr/aspnet/core/tutorials/first-web-api?view=aspnetcore-7.0&tabs=visual-studio
+
+c#에서 MySQL 연동하기
+https://vmpo.tistory.com/92
+
+c# textbox sqldata DataSet
+https://mainia.tistory.com/1534
+
+
+
+보면 좋을 것들(이카운트 4.0 자바스크립트)
+https://cat-antlion-144.notion.site/9cbc8a7fda9046e79ad20e73e4420b5f
+
+
+모던 자바스크립트 튜토리얼 + 문제
+https://ko.javascript.info/
+
+자바스크립트 클로저
+https://www.youtube.com/watch?v=MbYShFxp-j0
+
+자바스크립트 프로토타입
+https://www.youtube.com/watch?v=wUgmzvExL_E
+
+자바스크립트 DOM
+https://www.youtube.com/watch?v=zyz1eJJjsNE
+
+
+ES6 자바스크립트 표준, 규격을 나타내는 문법
+모던 자바스크립트
+현재 이카운트는 ES5 문법으로 제공하고 있음
+많은 사용자가 explorer를 쓰고 있었기 때문
+
+현재 올라가있는 소스는 minimize되어 올라가있음
+사이트에 -dev라가ㅗ 붙이면 minimize화 되지 않은, 암호화되지 않은 소스를 볼 수 있음
+
+ES6 문법을 쓰면 minimize할 때 오류가 남
+실제로 a?.aaa나  a ?? a같은 ES6 문법을 쓰면 오류가 남
+=> a === null ? undefined : aaa 로 하기
+=> a !== undefined !== null || a 로 써야 함
+
+5.0은 타입스크립트를 쓰기 때문에 ES6 문법을 써도 됨
+3.0은 그러나 ES6 문법을 쓰지 않음
+(QC QA는 크롬으로 하기 때문에, 오류가 안나지만 IE쓰는 고객이 갑자기 오류난다고 전화올 것... 그냥 var을 쓰자)
+
+여러분들은 주로 서버 개발 맡게 될것이라 알고 있음
+프론트엔드 개발이 진짜 하고 싶다면 어필, 상관없다
+다만 공부를 좀 더 딥하게 해야 할 것
+
+
+
+1. 브라우저: 문서, 이벤트, 인터페이스
+
+DOM(Document Object Model)
+HTML을 모델링한 게 DOM이라 생각하면 됨
+
+현재 이카운트 페이지는 사실상 JS로 렌더링하고있음
+JS의 주된 역할은 렌더링하고 이벤트 핸들링하는 것
+
+코솔에서 따로 document라는 변수를 선언하지 않아도 document라는 브라우저에서 제공하는 내장 변수를 호출할 수 있음
+
+window = 루트 객체, 즉 브라우저
+여러 이벤트도 등록되어있고, window 객체도 이 아래 있음
+
+document.querySelector("#parent");
+
+
+
+2. 자바스크립트 - 3.0 자바스크립트 기초
+
+다른 자바스크립트 문서는 5.0 기반이기 때문에 ES6 문법
+3.0 자바스크립트 기초라는 문서에서 ES5 문법 기반으로 배울 것
+
+JS 파일을 만들어도 되고, <script> 태그 안에 작성해도 됨
+HTML 렌더링의 가장 큰 원칙은 위에서 아래로 읽는 게 원칙
+
+=> "자바스크립트는 순서도 중요함"
+
+ecount.layout.form.general_export
+이 파일을 먼저 내리면 오류! => 네임스페이스가 정의되어있지않기 때문
+=> 따라서 순서가 중요하다
+
+1차 프로젝트 하다가 프로젝트가 쉽거나 시간이 남으면 구조화도 이쁘게, 클라이언트 사이드도 꾸며보는 것도 나쁘지 않을 것
+
+
+
+3-1. 데이터 타입과 연산자
+
+기본 타입: Number, String, Boolean, Undefined, Null
+참조 타입-Object: Array, Function, 정규식
+
+중요한 것: Object, Function (!)
+
+참조 타입 key-value 타입
+window도 키밸류 형태로 되어있었음
+기본 타입은 하나의 값만들 가지는 데 비해, 참조타입인 객체는 "여러 개의 프로퍼티"를 포함할 수 있음
+
+// new는 엔진을 좀 소모, 리터럴을 사용하자
+var obj = new Object(); // 객체 생성자 방식 - 내장에서 들고 있는 클래스
+// 또는 var obj = {}; // 객체 리터럴 방식 - 생성자로 굳이 만들 필요X
+
+obj.name = "jake";
+obj.age = 20;
+// 또는 var obj = { name: 'ecount', age: 20 }
+
+프로퍼티가 가질 수 있는 값들은 기본 타입, 객체, 배열, 함수 등 모든 타입
+
+console.log(typeof obj); // console 또한 내장 함수
+console.log(typeof obj); // object - typeof는 데이터의 타입을 반환
+
+프로젝트 때 JS로 뭔가 어필하고 싶다면 생성자까지 써서 뭘... 하면 되겠죠
+
+
+
+3-2. 객체 프로퍼티 다루기
+
+var obj = { name: 'ecount', age: 20, office-partition: "803 class" }
+
+1) 대괄호 표기법: obj['name']
+                  obj['office-partition']
+2) 마침표 표기법: obj.name
+
+obj.office-partition: -는 연산자이기 때문에, partition이라는 변수가 정의되지 않았다는 오류가 발생. 가운데 특수문자가 들어간 경우는 대괄호 표기법을 써야 함
+
+var obj2 = { ecount: 'guro' }
+obj2[obj.name] // 'guro' - 도 가능하다
+
+
+
+3-3. null과 undefined
+
+undefined: 선언만 하고 할당은 안했을 경우
+null: 할당은 한 것, 다만 빈 값을 준 것
+
+null === undefined // false - 둘은 다른 것이다
+
+
+
+3-4. for ... in
+
+for (var i=0; i < [1,2,3]; i++) { }
+for (var i in [1,2,3]) { }
+
+for (var props in obj) {
+  console.log(props, obj[props]);
+}
+// name ecount
+// age 20
+// office-partition 803 classroom
+
+// obj.ForEach 함수도 있음 - mdn가서 보자. 모질라 디벨로퍼 어쩌구
+
+// 어떤 게 먼저 출력될지 모름 - 순서 보장이 되진 않는다.
+// 프로퍼티를 순회할 때 주로 씀
+
+
+
+3-5. 프로퍼티 삭제
+
+delete obj.age; // 프로퍼티 삭제됨
+delete obj; // obj는 삭제 안됨
+
+
+
+3-6. 참조 타입의 특성
+
+JS에서 기본 타입을 제외하고는 모든 값은 객체입니다.
+객체 비교는 같은 참조값을 가져야 true
+
+var num = 100;
+var objA = { value: 100 };
+
+function changeArg(num, obj) {
+	num = 200;
+	obj.value = 200;
+
+	console.log(num);  //200
+	console.log(obj); // { vlaue: 200 }
+}
+
+console.log(num); //100 - 반영 안됨
+console.log(obj); //{ value: 200 }; - 변경값이 반영됨
+--> 기본 타입을 arguments로 쓸 때는 복사한 값을 사용하고, 참조 타입을 arugments로 쓸 때는 참조값 그대로를 넘기기 때문에 객체의 값을 변경할 수 있습니다.
+
+
+// 결국 리턴하는 거랑 매개변수로 참조타입 받아서 하는거랑 결과는 같을수있다
+// 뭐가 좋고 나쁘고는 없음
+var result = {}
+
+function addProps(obj) {
+  obj.result = true;
+}
+
+function resultProps() {
+  return {
+    result: true;
+  }
+}
+
+addProps(result);
+console.log(result); // { result: true } - 객체가 만들어짐
+
+result = resultProps();
+console.log(result); // { result: true } - 객체가 만들어짐
+
+
+
+3-7. 프로토타입
+
+ES5에서는 class라는 키워드가 없다
+ES6에서 class라는 키워드가 나옴
+
+그래서 이카운트 3.0에서는 class 비스무리한 것을 "프로토타입"을 사용해서 만듦
+
+class input {
+  constructor()
+  render() {
+    return '<input></input>';
+  }
+}
+// 이런 식으로 input에 위젯 추가하는 등 어필해도 되고
+
+
+var ecount = {
+  name: 'person',
+  age: 20
+}
+
+ecount.toString() // '[object Object]'
+// toString()이란 애는 정의하지 않았는데?
+// [[Prototype]]: Object란 애는 뭐지?
+
+프로토타입: 부모 객체에 접근할 수 있는 프로퍼티
+[[Prototype]], __proto__
+
+
+var arr = [];
+arr.forEach(); // 내가 forEach를 정의하지 않았는데 어떻게 사용할 수 있지?
+// ecount.forEach(); // 얘는 왜 사용할 수 없지?
+// [[Prototype]]: Array(0) // Array라는 프로토타입이 forEach를 가지고있음
+// Object란 프로토타입은 forEach를 가지고있지 않음
+
+
+var str = "abc";
+str.startsWith("a"); // true - 얘가 a라는 문자로 시작해? 응
+str.startsWith("b"); // false - 얘가 b라는 문자로 시작해? 아니
+
+
+
+4-1. 배열
+
+JS는 인터프리터 언어, 컴파일 안해도 됨, 자유로움
+이게 문제가 되는 경우도 있어 TS가 나옴
+
+var arr = [1, "a", function() {}, {}]; // 이래도 됨
+console.log(arr[1]); // 'a'
+
+var arr1 = [];
+arr1.push(1);
+arr1[4] = 10;
+console.log(arr1.length); // 5
+arr1 // (5) [1, empty x 3, 10]
+
+var arr3 = new Array(3); // new는 엔진을 좀 소모, 리터럴을 사용하자
+arr3; // (3) [empty x 3]
+
+var arr4 = new Array(4, 5);
+arr4; // (2) [3, 4]
+
+var arr5 = new Array(3, 4, 5);
+arr5; // (3) [3, 4, 5]
+// arr5 = {
+//   0: 3,
+//   1: 4,
+//   2: 5,s
+//   length: 3
+// }
+
+var arr4 = {
+  0: 3,
+  1: 4,
+  2: 5
+};
+// 이렇게 object로 만들어도 됨, 그러나 배열과 객체의 차이는
+
+
+
+4-2. 배열과 객체의 차이
+
+배열과 객체의 큰 차이는 배열은 length라는 프로퍼티를 자동으로 생성
+배열은 Array.prototype을 상속받기 때문에 일반 객체와는 다른 forEach, concat등 특별한 메소드를 사용할 수 있음
+
+var arr = [1, 2, 3];
+arr.name = 'Array'; // 라고 추가해도 됨
+
+
+
+4-3. 배열 조작
+
+
+1) 파괴적 방식의 배열 조작 - 원본이 변경됨
+
+arr.unshift(0); // 앞에 추가
+arr; // (4) [0, 1, 2, 3, name: 'Array']
+
+arr.push(5); // 뒤에 추가
+arr; // (5) [0, 1, 2, 3, 5, name: 'Array']
+
+arr.shift(); // 앞에 제거
+arr; // (4) [1, 2, 3, 5, name: 'Array']
+
+arr.pop(0); // 뒤에 제거
+arr; // (3) [1, 2, 3, name: 'Array']
+
+// splice(시작 인덱스, 지울 개수[, 넣을 인자들])
+arr.splice(0, 2, 'a', 'b'); // 임의의 위치에 추가, 제거
+arr; // (3) ['a', 'b', 3, name: 'Array']
+
+delete arr[1]; // 이렇게 해도 되지만...
+arr; // (3) ['a', empty, 3, name: 'Array']
+// length는 변경되지 않음
+
+arr.splice(1, 1);
+arr; // (2) ['a', 3, name: 'Array']
+// length도 변경됨
+
+
+2) 비파괴적 방식의 배열 조작 - 원본이 변경되지 않음
+
+var arr1 = [1,2,3,4,5,6,7,8]
+var result = arr1.slice(3,5);
+result; // (2) [4, 5]
+arr1; // (8) [1, 2, 3, 4, 5, 6, 7, 8]
+
+var result = arr1.slice(-2);
+result; // (2) [7, 8]
+
+
+
+4-4. 유사 배열(array-like)
+
+function func(a,b,c) {
+  console.log(arguments);
+}
+
+func(); // arguments를 안넣어도 오류 안남 - 그냥 undefined로 도는 것
+func(1, 2, 3);
+
+// Arguments(3) [1, 2, 3, callee:f, ...]
+//   0: 1,
+//   1: 2,
+//   2: 3,
+//   ...
+
+// Arguments에는 length가 있지만, Arguments.push()는 안됨!
+// 배열처럼 생겼지만 배열이 아니기 때문
+
+
+
+5. 기타 주요 메소드
+
+var str = "abc";
+str.startsWith("aa"); // false
+str.startsWith("ab"); // true
+str.startsWith("a"); // true
+
+str.length; // 3
+str[0]; // 'a'
+
+// Stirng
+// ...
+// startsWith: f ...
+
+// String 내장 메소드
+
+
+var num1 = 20;
+var num2 = new Number(20);
+
+console.log(num1 == num2); // true - 값은 같음
+console.log(num1 === num2); // false - 참조값은 다름
+
+
+var add = 1 + 'a';
+add; // "1a" - 알아서 형변환을 해줌
+
+var num = +'1';
+num; // 1 - 알아서 Number로 형변환을 해줌
+// var num = Number('1'); // 과 같다
+
+
+typeof null // object
+typeof undefined // undefined
+
+
+// ==, === 연산자
+1 == "1" // true
+1 === "1" // false
+
+
+// !, !! 연산자
+// 빈값, 0은 false
+!"" // true
+!!"" // false
+!0 // true
+!!0 // false
+
+// 아래 세 개는 같음
+if (str === "") { }
+if (!str == true) { }
+if (str) { }
+
+
+
+자바스크립트의 메모리 관리
+https://velog.io/@sejinkim/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%EC%9D%98-%EB%A9%94%EB%AA%A8%EB%A6%AC-%EA%B4%80%EB%A6%AC-%EC%84%A4%EB%AA%85
+
+var string = new String("aa")
+string == string1; // true
+string1 = 'aa'; // 'aa'
+string === string1; // false
+
+string.toString() === string1 // true
+
+기본형도 참조형을 toString()같은 메소드로 바꿔 보여주는 것 아닐까?
+
+
+
+6. 함수와 프로토타입
+
+1) 함수 정의
+
+- 함수 선언문
+- 함수 표현식
+- Function() 생성자 함수
+
+
+1-1) 함수 선언문: 함수 리터럴 형태로 함수 정의
+
+function add(x, y) {
+  return x + y;
+}
+
+
+1-2) 함수 표현식: 함수를 하나의 값으로 특정 변수에 할당
+
+var add = function (x, y) {
+  return x + y;
+}
+var plus = add;
+add(1, 2) // 3
+plus(2, 3) // 5
+
+
+var add = function plus(x, y) {
+  return x + y;
+}
+add(1, 2);
+plus(2, 3); // 에러 발생, 함수 표현식으로 함수를 정의하면 함수 선언문에서의 함수명은 add로 변경
+
+
+var factorialVar = function factorial(n) {
+  if (n <= 1) {
+    return a;
+  }
+  return n * factorial(n-1); // 내부에서 함수 선언문으로 정의된 함수명 사용
+}
+factorialVar(3) // 6
+factorial(3) // 에러 발생
+
+
+1-3) Function 생성자 사용
+
+var add = new Function('x', 'y', 'return x + y;');
+add(1,2) //3
+
+
+1-4) 함수 호이스팅: 끌어올림
+
+add(1,2) //3
+function add(x, y) {
+	return x + y;
+}
+add(3,4) //7
+
+add라는 함수를 밑에 정의(함수 선언문)했지만 함수 선언문이 미리 읽힘
+=> 단 함수 표현식은 호이스팅이 발생하지 않음, 에러가 났을 것임
+
+
+var str = "abc";
+console.log(str); // "abc"
+console.log(add); // undefined
+console.log(plus); // f plus() { }
+var add = function () { };
+function plus() { }
+
+
+// 자바스크립트의 실행은 아래와 같습니다.
+//1. 변수 모두 호이스팅하기
+var str;
+var add;
+function plus() { }
+
+//2. 초기화 하기
+str = "abc";
+console.log(str) //abc
+console.log(add) //undefined
+console.log(plus) //ƒ plus() {}
+add = function () {};
+
+
+1-5) 블록 스코프와 함수 스코프
+
+if (true) {
+  var aa = "aa";
+}
+console.log(aa); // "aa" - JS는 블록 스코프가 아니므로, 접근 가능
+
+function func() {
+  var aa = "aa";
+}
+console.log(aa); // undefined - 함수 스코프 내에 선언됨, 접근 불가
+
+
+
+2) 함수 객체
+
+function add(x, y) {
+	return x + y;
+}
+add.result = add(1, 2);
+console.log(add.result) // 3
+console.dir(add); // result: 3
+// f func() 
+//   arguments: null
+//   ...
+
+var obj = {
+  name: 'ecount',
+  age: 20,
+  dept: { key: value } // 도 가능
+}
+
+
+2-1) 함수는 값으로 사용 가능
+일급객체? => 무시해도 되는데, 궁금하면 검색
+
+함수
+- 리터럴로 생성
+- 변수나 배열의 요소, 프로퍼티에 할당 가능
+- 함수의 인자로 사용 가능
+- 함수의 리턴값으로 사용 가능
+- 동적으로 프로퍼티 생성, 할당 가능
+
+
+var add = function() { console.log("add"); }
+
+// 함수 인자
+var func = function(f) {
+  f();
+}
+func(add); // add
+
+// 리턴값 사용
+var func = function() {
+  return function() {
+    console.log("return")
+  }
+}
+var result = func();
+result(); // return
+
+
+2-2) 함수 프로퍼티
+
+var func = function () { };
+console.dir(func);
+
+
+2-프로토타입) prototype
+
+// 객체는 자기만 들고 있음
+[[prototype]] -  자신의 부모 역할을 하는 객체의 prototype
+prototype - 해당 함수가 생성자로 사용될 때, 이 함수를 통해 생성된 객체의 부모 역할을 하는 프로토타입 객체
+
+
+console.dir(func); constructor() 따로 정의하지 않아도
+var aa = new function(); // new 사용 가능
+
+
+function myFunction() {
+	return true;
+}
+console.dir(myFunction.prototype); // undefined
+console.dir(myFunction.prototype.constructor); // f myFunction()
+
+function myFunction() {
+	return 20;
+}
+console.dir(myFunction.prototype); // Object
+console.dir(myFunction.prototype.constructor); // f myFunction()
+
+
+//부모 객체 선언
+function Parent (name) { this.name = name };
+Parent.prototype.say = function () {return this.name};
+// Parent.say는 자식한테 넘어가지 않음 Parent.prototype.say로 해야 넘어감
+
+//자식 객체 선언
+function Child() {Parent.apply(this, arguments)}
+
+var kid = new Child("abc");
+kid // [[Prototype]] 안에 say가 들어 있음
+kid.say // "abc"출력
+// kid.prototype.say 하면 오버라이드 하는것
+
+myFunction의 Prototype <=> myFunction.prototype의 Constructor
+
+
+2-3) 함수의 다양한 형태
+
+
+(1) 콜백 함수: 코드를 명시적으로 호출하는 함수가 아니라, 
+단지 함수를 등록하고, 어떤 이벤트가 발생했거나, 특정 시점에 도달했을 때 시스템에서 호출되는 함수
+
+window.onload = function () {
+	alert("window load!!");
+}
+
+함수를 실행하는 코드를 작성하지 않았음, 브라우저가 알아서 실행시켜 준 것
+
+
+(2) 즉시 실행 함수
+
+ES5는 주로 function scope, var는 function scope로 연결되어있음
+ES6는 주로 block scope, let과 const를 써서 block scope로 한정시킬 수 있음
+
+(function (name) {
+	console.log('my name is' + name);
+})('ecount'); // 스코프를 한정시키기 위해서 사용했음, 초기화에 자주 이용
+
+
+(3) 내부 함수
+
+function parent() {
+	var a = 100;
+	var b = 200;
+	function child() {
+		var b = 300;
+		console.log(a); //100 -> 클로저를 이용한 호출
+		console.log(b); //300
+	}
+	child();
+}
+parent();
+child(); // 에러 발생 -> child는 parent의 내부 함수이므로 밖에서는 호출 불가
+
+
+클로저: 내부에서 외부의 변수를 참조 가능, 단, 외부에서 내부 변수를 참조 불가
+
+
