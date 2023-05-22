@@ -24,11 +24,7 @@ export default function App({ $target }) {
         
         btnStart.removeAttribute('disabled');
         items.getAll().forEach(function (item) {
-<<<<<<< HEAD
             item.disable(true);
-=======
-            item.disable(false);
->>>>>>> 0fd630a55bf1f2f3255db7dfd599f70b2e347bf7
         });
     }
 
