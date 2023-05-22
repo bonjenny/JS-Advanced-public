@@ -9,7 +9,7 @@ export function Item(key, name, onClick) {
     // 클릭 이벤트 핸들링
     var _self = this;
     this.buttonEl.onclick = function() {
-        onClick(_self.key); // 여기서 this는 this.buttonEl(호출하는 애)
+        onClick(_self); // 여기서 this는 this.buttonEl(호출하는 애)
     };
     // this.buttonEl.onclick = onClick; // this가 달라짐
 }
