@@ -21,16 +21,67 @@ var todolist = [
     },
 ];
 
-function renderTodoList() {
-    var todolistEl = document.getElementById("todo-list");
-    todolistEl.innerHTML = "";
+renderTodoList();
+renderDoneList();
 
-    todolist
-        .filter(function(item) { return !item.done })
-        .forEach(function(item) {
-            var itemEl = createTodoItem(item);
-            todolistEl.append(itemEl);
+var inputBtnEl = document.getElementById("todo-input");
+var contentsEl = document.getElementById("todo-contents");
+
+// var inputControl = Widget.input("todo-input");
+
+var containerEl = document.getElementById("container");
+var inputBtnControl = Widget.button({ 
+    label: "입력",
+    onClick: function() {
+        if(!contentsEl.value) {
+            alert("할일을 입력해 주세요");
+            return;
+        }
+
+        // Widget.getContro("todo-input"); // 하면 더 좋은 패턴이 될 것같음
+
+        todolist.push({
+            id: crypto.randomUUID(), // 랜덤한 유니크한 문자 아이디 생성
+            contents: contentsEl.value, // contents: inputControl.getValue();
+            done: false,
         });
+        renderTodoList();
+
+        contentsEl.value = "";
+        contentsEl.focus();
+    }
+});
+containerEl.append(inputBtnControl.el);
+
+var todolistControl = Widget.list({
+    datas: todolist,
+    columns: [
+        {
+            render: function (data) {
+                var delBtnControl = Widget.button({
+                    label: "삭제",
+                    onClick: function() {
+                        todolist.splice(todolist.indexOf(item), 1);
+                        todolistControl.reload();
+                    },
+                });
+                return delBtnControl.el;
+            },
+        },
+    ],
+});
+containerEl.append(todolistControl.el);
+
+function renderTodoList() {
+    // var todolistEl = document.getElementById("todo-list");
+    // todolistEl.innerHTML = "";
+
+    // todolist
+    //     .filter(function(item) { return !item.done })
+    //     .forEach(function(item) {
+    //         var itemEl = createTodoItem(item);
+    //         todolistEl.append(itemEl);
+    //     });
 }
 
 function renderDoneList() {
@@ -44,33 +95,6 @@ function renderDoneList() {
             donelistEl.append(itemEl);
         });
 }
-
-renderTodoList();
-renderDoneList();
-
-var inputBtnEl = document.getElementById("todo-input");
-var contentsEl = document.getElementById("todo-contents");
-
-var containerEl = document.getElementById("container");
-
-var inputBtnControl = Widget.button({ 
-    label: "입력",
-    onClick: function() {
-        if(!contentsEl.value) {
-            alert("할일을 입력해 주세요");
-            return;
-        }
-        todolist.push({
-            id: crypto.randomUUID(), // 랜덤한 유니크한 문자 아이디 생성
-            contents: contentsEl.value,
-            done: false,
-        });
-        renderTodoList();
-
-        contentsEl.value = "";
-        contentsEl.focus();
-    }
-});
 
 contentsEl.onkeyup = function(event) {
     if (event.keyCode !== 13) return;
@@ -87,8 +111,6 @@ contentsEl.onkeyup = function(event) {
     contentsEl.focus();
     renderTodoList();
 }
-
-containerEl.append(inputBtnControl.el);
 
 function createTodoItem(item) {
     var liEl = document.createElement("li");
@@ -109,8 +131,6 @@ function createTodoItem(item) {
     contents.textContent = item.contents;
 
     // 삭제버튼
-    var delBtn = document.createElement("button");
-
     var delBtnControl = Widget.button({
         label: "삭제",
         onClick: function() {

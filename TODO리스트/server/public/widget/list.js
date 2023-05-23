@@ -1,5 +1,5 @@
 export function createList({
-    datas, columns
+    datas, columns //option == { datas : null, columns: null }
 }) {
     var el = document.createElement("ul");
     el.style.listStyle = "none";
