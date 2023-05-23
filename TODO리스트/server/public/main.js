@@ -50,20 +50,28 @@ renderDoneList();
 
 var inputBtnEl = document.getElementById("todo-input");
 var contentsEl = document.getElementById("todo-contents");
-inputBtnEl.onclick = function() {
-    if(!contentsEl.value) {
-        alert("할일을 입력해 주세요");
-        return;
+
+var containerEl = document.getElementById("container");
+
+var inputBtnControl = Widget.button({ 
+    label: "입력",
+    onClick: function() {
+        if(!contentsEl.value) {
+            alert("할일을 입력해 주세요");
+            return;
+        }
+        todolist.push({
+            id: crypto.randomUUID(), // 랜덤한 유니크한 문자 아이디 생성
+            contents: contentsEl.value,
+            done: false,
+        });
+        renderTodoList();
+
+        contentsEl.value = "";
+        contentsEl.focus();
     }
-    todolist.push({
-        id: crypto.randomUUID(), // 랜덤한 유니크한 문자 아이디 생성
-        contents: contentsEl.value,
-        done: false,
-    });
-    contentsEl.value = "";
-    contentsEl.focus();
-    renderTodoList();
-}
+});
+
 contentsEl.onkeyup = function(event) {
     if (event.keyCode !== 13) return;
     if(!contentsEl.value) {
@@ -79,6 +87,8 @@ contentsEl.onkeyup = function(event) {
     contentsEl.focus();
     renderTodoList();
 }
+
+containerEl.append(inputBtnControl.el);
 
 function createTodoItem(item) {
     var liEl = document.createElement("li");
@@ -100,20 +110,18 @@ function createTodoItem(item) {
 
     // 삭제버튼
     var delBtn = document.createElement("button");
-    delBtn.textContent = "삭제";
-    delBtn.onclick = function() {
-        // 1) filter: todolist의 주소값이 바뀌어버림
-        // todolist = todolist.filter(function(x) {
-        //     return x !== item;
-        // })
-        // 2) splice
-        todolist.splice(todolist.indexOf(item), 1);
-        item.done ? renderDoneList() : renderTodoList();
-    }
+
+    var delBtnControl = Widget.button({
+        label: "삭제",
+        onClick: function() {
+            todolist.splice(todolist.indexOf(item), 1);
+            item.done ? renderDoneList() : renderTodoList();
+        }
+    })
 
     liEl.append(checkbox);
     liEl.append(contents);
-    liEl.append(delBtn);
+    liEl.append(delBtnControl.el);
 
     return liEl;
 };
