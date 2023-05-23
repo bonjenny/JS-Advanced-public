@@ -1,11 +1,18 @@
+import { createDiv } from "./div";
 import { createButton } from "./button";
+import { createInput } from "./input";
 import { createList } from "./list";
 
-// Widget의 번들링 엔트리(시작) 파일
 window.Widget = {
+    controls: [],
+    div: createDiv,
     button: createButton,
+    input: createInput,
     list: createList,
-    getControl: function() {
-
-    }// 여기서 create한 모든 객체를 가지고있어야함
+    addControl: function(control) {
+        this.controls.push(control);
+    },
+    getControl: function(id) {
+        return this.controls.find(control => control.id === id);
+    }
 };

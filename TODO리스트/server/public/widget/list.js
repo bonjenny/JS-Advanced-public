@@ -1,12 +1,14 @@
-export function createList({
-    datas, columns //option == { datas : null, columns: null }
-}) {
+export function createList(
+    id, { datas, columns }
+) {
     var el = document.createElement("ul");
+    el.id = id;
     el.style.listStyle = "none";
     el.style.padding = "0";
 
     render(datas, columns);
 
+    Widget.addControl(el);
     return {
         el: el,
         reload: function(datas) {
