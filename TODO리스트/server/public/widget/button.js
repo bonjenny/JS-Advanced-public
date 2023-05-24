@@ -1,11 +1,16 @@
-export function createButton(
-    id, { label, onClick }
-) {
-    var el = document.createElement("button");
-    el.id = id;
-    el.textContent = label;
-    el.onclick = onClick;
+import { widget } from "./baseWidget";
 
-    Widget.addControl(el);
-    return el;
+function _createButton(
+  id, { label, onClick }
+) {
+  var el = document.createElement("button");
+  el.textContent = label;
+  el.onclick = onClick;
+
+  return {
+    id: id,
+    el: el,
+  };
 }
+
+export var createButton = widget(_createButton);

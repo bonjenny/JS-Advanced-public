@@ -1,3 +1,3 @@
 export function game(item) {
-    console.log(item);
+  console.log(item);
 }

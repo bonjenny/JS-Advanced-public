@@ -1,10 +1,18 @@
-export function createDiv(
-    id, { parent }
-) {
-    var el = document.createElement("div");
-    el.id = id;
-    parent.append(el);
+import { widget } from "./baseWidget";
 
-    Widget.addControl(el);
-    return el;
+function _createDiv(
+  id, { parent }
+) {
+  var el = document.createElement("div");
+  parent.append(el);
+
+  return {
+    id: id,
+    el: el,
+    append: function (control) {
+      el.append(control.el);
+    }
+  };
 }
+
+export var createDiv = widget(_createDiv);
