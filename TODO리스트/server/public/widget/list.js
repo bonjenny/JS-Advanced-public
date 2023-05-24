@@ -19,6 +19,7 @@ function _createList(
   };
 
   function render(datas, columns) {
+    el.innerHTML = ""; // 다시그리기
     datas.forEach(function (data) {
       var liEl = document.createElement("li");
       columns.forEach(function (column) {

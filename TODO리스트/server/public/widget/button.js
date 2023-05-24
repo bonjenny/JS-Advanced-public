@@ -10,6 +10,10 @@ function _createButton(
   return {
     id: id,
     el: el,
+    dispose: function () {
+      el.remove();
+      removeControl(id);
+    },
   };
 }
 
