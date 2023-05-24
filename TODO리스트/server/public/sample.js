@@ -22,32 +22,32 @@ function loadScript(src) {
   });
 }
 
-// function loadJson(url) {
-//   return fetch(url) // fetch는 promise를 반환
-//     .then(response => response.json()); // 자동으로 resolve
-// }
+function loadJson(url) {
+  return fetch(url) // fetch는 promise를 반환
+    .then(response => response.json()); // 자동으로 resolve
+}
 
-// function loadGithubUser(name) {
-//   return fetch(`https://api.github.com/users/${name}`)
-//     .then(response => response.json());
-// }
+function loadGithubUser(name) {
+  return fetch(`https://api.github.com/users/${name}`)
+    .then(response => response.json());
+}
 
-// function showAvatar(githubUser) {
-//   return new Promise(function (resolve, reject) {
-//     let img = document.createElement('img');
-//     img.src = githubUser.avatar_url;
-//     img.className = "promise-avatar-example";
-//     document.body.append(img);
+function showAvatar(githubUser) {
+  return new Promise(function (resolve, reject) {
+    let img = document.createElement('img');
+    img.src = githubUser.avatar_url;
+    img.className = "promise-avatar-example";
+    document.body.append(img);
 
-//     setTimeout(() => {
-//       img.remove();
-//       resolve(githubUser);
-//     }, 3000);
-//   });
-// }
+    setTimeout(() => {
+      img.remove();
+      resolve(githubUser);
+    }, 3000);
+  });
+}
 
-// // 함수를 이용하여 다시 동일 작업 수행
-// loadJson('/article/promise-chaining/user.json')
-//   .then(user => loadGithubUser(user.name)) // then 구문 안 비동기처리
-//   .then(showAvatar) // 이미지를 다운받는 데 시간이 걸림
-//   .then(githubUser => alert(`Finished showing ${githubUser.name}`));
+// 함수를 이용하여 다시 동일 작업 수행
+loadJson('/article/promise-chaining/user.json')
+  .then(user => loadGithubUser(user.name)) // then 구문 안 비동기처리
+  .then(showAvatar) // 이미지를 다운받는 데 시간이 걸림
+  .then(githubUser => alert(`Finished showing ${githubUser.name}`));
