@@ -3,6 +3,16 @@ function Menu(name, time) {
   this.time = time;
 }
 
+function orderAsync(menu, chef) {
+  return new Promise(function findServer(resolve) {
+    orders.splice(orders.indexOf(menu), 1);
+    cookings.push(menu);
+    renderOrders();
+    renderCookings();
+    resolve(chef);
+  });
+}
+
 function Chef() {
   this.status = "ready"; // or cooking
 }
@@ -14,9 +24,9 @@ Chef.prototype.cookAsync = function (menu) {
   chef.status = "cooking";
   return new Promise(function (resolve) {
     setTimeout(function () {
-      orders.splice(orders.indexOf(menu), 1);
-      cookings.push(menu);
-      renderOrders();
+      cookings.splice(cookings.indexOf(menu), 1);
+      servings.push(menu);
+      renderCookings();
       renderCookings();
       chef.status = "ready";
       resolve();
@@ -49,9 +59,7 @@ Server.prototype.serveAsync = function (menu) {
   server.status = "serving";
   return new Promise(function (resolve) {
     setTimeout(function () {
-      cookings.splice(cookings.indexOf(menu), 1);
-      servings.push(menu);
-      renderCookings();
+      servings.splice(cookings.indexOf(menu), 1);
       renderServings();
       server.status = "ready";
       resolve();
@@ -73,6 +81,7 @@ function findServerAsync() {
 }
 // 바로 처리되는게아니면 async를 관습적으로 붙임
 // 그래야 await new Chef().cookAsync 이런식으로 await나 .then을 붙임
+
 
 var orders = [];
 var cookings = [];
@@ -121,6 +130,9 @@ function run(menu) {
   // 대기중인 요리사 찾기 (요리사가 있을 때까지 "대기"해야 함) - 함수로 따로 빼서 처리하지 말기,
   // 가급적이면 promise로 처리
   findChefAsync()
+    .then(function (chef) {
+      return orderAsync(menu, chef);
+    })
     .then(function (chef) {
       // 대기 상태인 chef가 넘어옴
       // 요리사에게 요리 시킴 (요리하는 데 시간이 걸리므로 "대기"해야 함)
