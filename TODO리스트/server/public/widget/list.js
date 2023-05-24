@@ -1,6 +1,6 @@
-import { addControl } from "./core";
+import { widget } from "./baseWidget";
 
-export function createList(
+function _createList(
   id, { datas, columns }
 ) {
   var el = document.createElement("ul");
@@ -10,15 +10,13 @@ export function createList(
 
   render(datas, columns);
 
-  var control = {
+  return {
     el: el,
     reload: function (datas) {
       el.innerHTML = "";
       render(datas, columns);
     }
   };
-  addControl(control);
-  return control;
 
   function render(datas, columns) {
     datas.forEach(function (data) {
@@ -31,3 +29,5 @@ export function createList(
     })
   }
 }
+
+export var createList = widget(_createList);

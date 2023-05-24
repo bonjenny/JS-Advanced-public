@@ -6,4 +6,4 @@ export function widget(creator) {
     addControl(control);
     return control;
   }
-}
+} 

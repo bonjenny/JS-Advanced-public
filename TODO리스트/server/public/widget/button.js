@@ -1,16 +1,16 @@
-import { addControl } from "./core";
+import { widget } from "./baseWidget";
 
-export function createButton(
+function _createButton(
   id, { label, onClick }
 ) {
   var el = document.createElement("button");
   el.textContent = label;
   el.onclick = onClick;
 
-  var control = {
+  return {
     id: id,
     el: el,
-  }
-  addControl(control);
-  return control;
+  };
 }
+
+export var createButton = widget(_createButton);

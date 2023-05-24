@@ -1,6 +1,6 @@
-import { addControl } from "./core";
+import { widget } from "./baseWidget";
 
-export function createInput(
+function _createInput(
   id, { checked, onChange, onKeyDown }
 ) {
   var el = document.createElement("input");
@@ -11,12 +11,10 @@ export function createInput(
   el.onchange = onChange;
   el.onkeydown = onKeyDown;
 
-  var control = {
+  return {
     id: id,
     el: el,
   };
-  addControl(control);
-  return control;
 }
 
-// export var createinput = widget(createInput);
+export var createInput = widget(_createInput);
