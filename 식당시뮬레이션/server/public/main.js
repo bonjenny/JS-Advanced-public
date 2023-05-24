@@ -10,21 +10,30 @@ Chef.prototype.isAvailable = function () {
   return this.status === "ready";
 }
 Chef.prototype.cookAsync = function (menu) {
+  var chef = this;
+  chef.status = "cooking";
   return new Promise(function (resolve) {
     setTimeout(function () {
       orders.splice(orders.indexOf(menu), 1);
       cookings.push(menu);
       renderOrders();
       renderCookings();
+      chef.status = "ready";
       resolve();
     }, menu.time);
   });
 }
 
 function findChefAsync() {
-  return new Promise(function (resolve) {
+  return new Promise(function findChef(resolve) {
     var chef = chefs.find(chef => chef.isAvailable());
-    resolve(chef);
+    if (chef === undefined) {
+      setTimeout(() => {
+        findChef(resolve);
+      }, 500);
+    } else {
+      resolve(chef);
+    }
   });
 }
 
@@ -36,22 +45,30 @@ Server.prototype.isAvailable = function () {
   return this.status === "ready";
 }
 Server.prototype.serveAsync = function (menu) {
-  var serveTime = this.serveTime;
+  var server = this;
+  server.status = "serving";
   return new Promise(function (resolve) {
     setTimeout(function () {
       cookings.splice(cookings.indexOf(menu), 1);
       servings.push(menu);
       renderCookings();
       renderServings();
+      server.status = "ready";
       resolve();
-    }, serveTime);
+    }, server.serveTime);
   });
 }
 
 function findServerAsync() {
-  return new Promise(function (resolve) {
+  return new Promise(function findServer(resolve) {
     var server = servers.find(server => server.isAvailable());
-    resolve(server);
+    if (server === undefined) {
+      setTimeout(() => {
+        findServer(resolve);
+      }, 500);
+    } else {
+      resolve(server);
+    }
   });
 }
 // 바로 처리되는게아니면 async를 관습적으로 붙임
@@ -108,7 +125,7 @@ function run(menu) {
       // 대기 상태인 chef가 넘어옴
       // 요리사에게 요리 시킴 (요리하는 데 시간이 걸리므로 "대기"해야 함)
       // -- 요리 목록으로 넘어가야 함
-      chef.cookAsync(menu);
+      return chef.cookAsync(menu);
     })
     // 서빙을 시킴
     // -- 서빙 목록으로 넘어가야 함
@@ -117,5 +134,5 @@ function run(menu) {
     })
     .then(function (server) {
       server.serveAsync(menu);
-    });
+    })
 }
