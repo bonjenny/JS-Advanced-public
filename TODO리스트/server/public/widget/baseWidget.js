@@ -5,5 +5,5 @@ export function widget(creator) {
     var control = creator.apply(null, arguments);
     addControl(control);
     return control;
-  }
-} 
+  };
+}

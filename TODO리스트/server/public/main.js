@@ -51,7 +51,7 @@ function saveContent(contentsEl) {
 }
 
 function getSortedTodoList({ done }) {
-  return todolist.filter(data => data.done === done);
+  return todolist.filter((data) => data.done === done);
 }
 
 function renderColumnDone(data) {
