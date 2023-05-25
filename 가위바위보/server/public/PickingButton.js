@@ -1,21 +1,41 @@
-import { game } from "./game.js";
-
 export class PickingButton {
-  constructor({
-    $target, initialState, name,
-  }) {
-    this.state = initialState;
-    this.name = name;
-    this.$element = document.createElement('button');
-    this.$element.className = 'PickingButton';
-    this.$element.textContent = name;
+  static state = {
+    onClick: () => { }
+  }
+  static setState = (nextState) => {
+    PickingButton.state = {
+      ...this.state,
+      ...nextState
+    };
+  }
 
-    $target.appendChild(this.$element);
+  constructor({
+    $target, name,
+  }) {
+    this.state = {
+      $element: '',
+      name: name,
+      onClick: (item) => {
+        console.log(item);
+      },
+    };
+
+    this.setState = (nextState) => {
+      this.state = {
+        ...this.state,
+        ...nextState
+      };
+    };
+
+    this.state.$element = document.createElement('button');
+    this.state.$element.className = 'PickingButton';
+    this.state.$element.textContent = this.state.name;
+    $target.appendChild(this.state.$element);
 
     this.render = () => {
       var _self = this;
-      this.$element.onclick = () => {
-        game(_self);
+      this.state.$element.onclick = () => {
+        PickingButton.state.onClick(_self);
       };
     };
     this.render();
@@ -23,7 +43,7 @@ export class PickingButton {
 
   disabled(value) {
     value == true ?
-      this.$element.setAttribute('disabled', true) :
-      this.$element.removeAttribute('disabled');
+      this.state.$element.setAttribute('disabled', true) :
+      this.state.$element.removeAttribute('disabled');
   }
 }
