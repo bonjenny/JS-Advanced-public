@@ -1,69 +1,69 @@
 import { PickingButton } from "./PickingButton.js";
 import { Queue } from "./Queue.js";
+import { Game } from "./Game.js";
 
-export default function App({ $target }) {
-  this.state = {
-    //
-  }
+export default class App {
+  constructor({ $target }) {
+    this.state = {
+      btnStartElmn: document.getElementById("btnStart"),
+      divComputerDataElmn: document.getElementById("computerData"),
+      divPickingBtns: document.getElementById("divPickingBtns"),
+      computerCurrentData: undefined,
+      timerId: null,
+      items: new Queue({
+        scissors: new PickingButton({
+          $target: divPickingBtns,
+          name: "가위",
+        }),
+        rock: new PickingButton({
+          $target: divPickingBtns,
+          name: "바위",
+        }),
+        paper: new PickingButton({
+          $target: divPickingBtns,
+          name: "보",
+        }),
+      }),
+    };
 
-  this.setState = (nextState) => {
-    //
-  }
-
-  function game(item) {
-    let next = items.getNext(item);
-    if (item === computerCurrentItem) {
-      alert("비겼습니다");
-    } else if (next === computerCurrentItem) {
-      alert("졌습니다");
-    } else {
-      alert("이겼습니다");
-    }
-
-    clearInterval(timerRandomComputerData);
-
-    btnStart.removeAttribute('disabled');
-    items.getAll().forEach(function (item) {
-      item.disable(true);
-    });
-  }
-
-  const items = new Queue([
-    new PickingButton({
-      key: 'scissors',
-      name: "가위",
-      onClick: game
-    }),
-    new PickingButton({
-      key: 'rock',
-      name: "바위",
-      onClick: game
-    }),
-    new PickingButton({
-      key: 'paper',
-      name: "보",
-      onClick: game
+    Game.setState({
+      items: this.state.items,
+      btnStartElmn: this.state.btnStartElmn,
     })
-  ]);
 
-  let timerRandomComputerData;
-  let btnStart = document.getElementById("btnStart");
-  let computerCurrentItem = items.getAll()[0];
-  let computerData = document.getElementById("computerData");
+    PickingButton.setState({
+      onClick: Game.state.startGame,
+    });
 
-  let divPickingBtn = document.getElementById("divPickingBtn");
-  items.getAll().forEach(item => {
-    item.render(divPickingBtn);
-    item.disable(true);
-  });
+    this.setState = (nextState) => {
+      this.state = {
+        ...this.state,
+        ...nextState,
+      };
+      Game.setState({
+        computerCurrentData: this.state.computerCurrentData,
+        timerId: this.state.timerId,
+      })
+    };
 
-  btnStart.onclick = () => {
-    btnStart.setAttribute('disabled', true);
-    items.getAll().forEach(item => item.disable(false));
+    this.render = () => {
+      this.state.items.forEach(item => item.disabled(true));
 
-    timerRandomComputerData = setInterval(() => {
-      computerCurrentItem = items.getNext(computerCurrentItem);
-      computerData.textContent = computerCurrentItem.name;
-    }, 100);
+      this.state.btnStartElmn.onclick = () => {
+        this.state.btnStartElmn.setAttribute('disabled', true);
+        this.state.items.forEach(item => item.disabled(false));
+
+        this.setState({
+          computerCurrentData: this.state.items.getAll()[0],
+          timerId: setInterval(() => {
+            this.setState({
+              computerCurrentData: this.state.items.getNext(this.state.computerCurrentData),
+            });
+            this.state.divComputerDataElmn.textContent = this.state.computerCurrentData.state.name;
+          }, 100),
+        });
+      };
+    }
+    this.render();
   }
 }
