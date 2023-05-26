@@ -1,14 +1,17 @@
-var controls = [];
-// var controls = {};
+var controls = {};
 
-export function addControl(control) {
-  controls.push(control);
-}
-
-export function removeControl(control) {
-  controls.splice(controls.indexOf(control), 1);
+export function hasControl(id) {
+  return controls.hasOwnProperty(id);
 }
 
 export function getControl(id) {
-  return controls.find((control) => control.id === id);
+  return controls[id];
+}
+
+export function addControl(control) {
+  controls[control.id] = control;
+}
+
+export function removeControl(id) {
+  delete controls[id];
 }
