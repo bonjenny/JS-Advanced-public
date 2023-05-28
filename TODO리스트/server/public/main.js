@@ -27,7 +27,7 @@ function onKeyDownTodoInput() {
 }
 
 function onClickSave() {
-  var control = Widget.getControl("todoInput");
+  var control = Widget.get("todoInput");
   saveContent(control.el);
 }
 

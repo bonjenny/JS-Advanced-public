@@ -1,8 +1,6 @@
-import { widget } from "./baseWidget";
+import { widget } from "../baseWidget";
 
-function _createInput(
-  id, { checked, onChange, onKeyDown }
-) {
+function _createInput(id, { checked, onChange, onKeyDown }) {
   var el = document.createElement("input");
   if (checked !== undefined) {
     el.type = "checkbox";

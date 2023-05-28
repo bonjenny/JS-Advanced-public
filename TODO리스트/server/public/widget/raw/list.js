@@ -1,8 +1,6 @@
-import { widget } from "./baseWidget";
+import { widget } from "../baseWidget";
 
-function _createList(
-  id, { datas, columns }
-) {
+function _createList(id, { datas, columns }) {
   var el = document.createElement("ul");
   el.id = id;
   el.style.listStyle = "none";
@@ -15,7 +13,7 @@ function _createList(
     reload: function (datas) {
       el.innerHTML = "";
       render(datas, columns);
-    }
+    },
   };
 
   function render(datas, columns) {
@@ -27,7 +25,7 @@ function _createList(
         liEl.append(control);
       });
       el.append(liEl);
-    })
+    });
   }
 }
 

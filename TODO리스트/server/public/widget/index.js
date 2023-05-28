@@ -1,13 +1,15 @@
-import { createDiv } from "./div";
-import { createButton } from "./button";
-import { createInput } from "./input";
-import { createList } from "./list";
+import {
+  createDiv,
+  createList,
+  createInput,
+  createButton,
+} from "./raw/index.js";
 import { getControl } from "./core";
 
 window.Widget = {
   div: createDiv,
-  button: createButton,
-  input: createInput,
   list: createList,
-  getControl: getControl,
+  input: createInput,
+  button: createButton,
+  get: getControl,
 };

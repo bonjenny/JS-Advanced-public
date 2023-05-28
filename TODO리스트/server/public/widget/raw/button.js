@@ -1,8 +1,6 @@
-import { widget } from "./baseWidget";
+import { widget } from "../baseWidget";
 
-function _createButton(
-  id, { label, onClick }
-) {
+function _createButton(id, { label, onClick }) {
   var el = document.createElement("button");
   el.textContent = label;
   el.onclick = onClick;

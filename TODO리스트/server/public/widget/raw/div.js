@@ -1,8 +1,6 @@
-import { widget } from "./baseWidget";
+import { widget } from "../baseWidget";
 
-function _createDiv(
-  id, { parent }
-) {
+function _createDiv(id, { parent }) {
   var el = document.createElement("div");
   parent.append(el);
 
@@ -11,7 +9,7 @@ function _createDiv(
     el: el,
     append: function (control) {
       el.append(control.el);
-    }
+    },
   };
 }
 
