@@ -3,17 +3,6 @@ import { Queue } from "./Queue.js";
 import { Game } from "./Game.js";
 
 export default class App {
-  // state: {
-  //   btnStartElmn: any;
-  //   divComputerDataElmn: any;
-  //   divPickingBtns: any;
-  //   computerCurrentData: undefined;
-  //   timerId: null;
-  //   items: Queue;
-  // };
-  // setState: (nextState: any) => void;
-  // render: () => void;
-
   constructor({ $target }) {
     this.state = {
       btnStartElmn: Widget.element("button", {
