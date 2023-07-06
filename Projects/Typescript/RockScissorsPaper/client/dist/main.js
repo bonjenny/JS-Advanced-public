@@ -1,1 +1,116 @@
-(()=>{"use strict";class t{static state={onClick:()=>{}};static setState=e=>{t.state={...t.state,...e}};constructor({$target:e,name:s}){this.state={$element:"",name:s,onClick:t=>{console.log(t)}},this.setState=t=>{this.state={...this.state,...t}},this.state.$element=Widget.element("button",{className:"PickingButton",innerText:this.state.name}).getEl(),e.appendChild(this.state.$element),this.render=()=>{var e=this;this.state.$element.onclick=()=>{t.state.onClick(e)}},this.render()}disabled(t){1==t?this.state.$element.setAttribute("disabled",!0):this.state.$element.removeAttribute("disabled")}}class e{constructor(t){this.storage={...t},this.front=0,this.rear=Object.keys(t).length}size(){return void 0===this.storage[rear]?0:this.rear-this.front+1}add(t){0===this.size()?this.storage[0]=t:this.storage[++this.rear]=t}popleft(){let t;return t=this.storage[this.front],delete this.storage[this.front],this.front!==this.rear?(this.front++,t):(this.front=0,this.rear=0,t)}getAll(){return Object.values(this.storage)}getNext(t){let e=Object.keys(this.storage);for(var s=0;s<e.length;s++){const a=e[s];if(this.storage[a]===t)break}const a=e[++s%3];return this.storage[a]}forEach(t){return Object.values(this.storage).forEach(t)}}class s{static state={items:[],btnStartElmn:void 0,computerCurrentData:void 0,timerId:void 0,startGame:t=>{var e=s.state.items.getNext(t);t===s.state.computerCurrentData?alert("비겼습니다"):e===s.state.computerCurrentData?alert("졌습니다"):alert("이겼습니다"),clearInterval(s.state.timerId),s.state.btnStartElmn.removeAttribute("disabled"),s.state.items.forEach((t=>t.disabled(!0)))}};static setState=t=>{s.state={...this.state,...t}};constructor(){}}new class{constructor({$target:a}){this.state={btnStartElmn:Widget.element("button",{id:"btnStart",innerText:"게임 시작"}).getEl(),divComputerDataElmn:Widget.element("div",{id:"computerData",innerText:"시작 버튼을 눌러주세요"}).getEl(),divPickingBtns:Widget.element("div",{id:"divPickingbtns"}).getEl(),computerCurrentData:void 0,timerId:null,items:new e({scissors:new t({$target:Widget.get("divPickingbtns").getEl(),name:"가위"}),rock:new t({$target:Widget.get("divPickingbtns").getEl(),name:"바위"}),paper:new t({$target:Widget.get("divPickingbtns").getEl(),name:"보"})})},s.setState({items:this.state.items,btnStartElmn:this.state.btnStartElmn}),t.setState({onClick:s.state.startGame}),this.setState=t=>{this.state={...this.state,...t},s.setState({computerCurrentData:this.state.computerCurrentData,timerId:this.state.timerId})},this.render=()=>{Widget.element("h1",{innerText:"가위바위보게임",parent:a}),a.appendChild(this.state.btnStartElmn),a.appendChild(this.state.divComputerDataElmn),a.appendChild(this.state.divPickingBtns),this.state.items.forEach((t=>t.disabled(!0))),this.state.btnStartElmn.onclick=()=>{this.state.btnStartElmn.setAttribute("disabled",!0),this.state.items.forEach((t=>t.disabled(!1))),this.setState({computerCurrentData:this.state.items.getAll()[0],timerId:setInterval((()=>{this.setState({computerCurrentData:this.state.items.getNext(this.state.computerCurrentData)}),this.state.divComputerDataElmn.textContent=this.state.computerCurrentData.state.name}),100)})}},this.render()}}({$target:document.querySelector(".App")})})();
+/*
+ * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./src/core.ts":
+/*!*********************!*\
+  !*** ./src/core.ts ***!
+  \*********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   addControl: () => (/* binding */ addControl),\n/* harmony export */   delControl: () => (/* binding */ delControl),\n/* harmony export */   getControl: () => (/* binding */ getControl),\n/* harmony export */   getControls: () => (/* binding */ getControls),\n/* harmony export */   hasControl: () => (/* binding */ hasControl),\n/* harmony export */   removeNode: () => (/* binding */ removeNode)\n/* harmony export */ });\nvar WidgetDict = {};\nfunction hasControl(id) {\n    return WidgetDict.hasOwnProperty(id);\n}\nfunction getControl(id) {\n    if (WidgetDict[id] !== undefined) {\n        return WidgetDict[id];\n    }\n    var control = {\n        id: id,\n        getEl: function () {\n            return document.createDocumentFragment();\n        },\n    };\n    return control;\n}\nfunction getControls(id) {\n    return Object.keys(WidgetDict).filter(function (item) {\n        return item.split(\"_\")[0] == id;\n    });\n}\nfunction delControl(id) {\n    delete WidgetDict[id];\n}\nfunction addControl(id, control) {\n    WidgetDict[id] = control;\n}\nfunction removeNode(node) {\n    if (node instanceof DocumentFragment) {\n        if (node.parentElement) {\n            node.parentElement.removeChild(node);\n        }\n    }\n    else {\n        node.remove();\n    }\n}\n\n\n//# sourceURL=webpack:///./src/core.ts?");
+
+/***/ }),
+
+/***/ "./src/index.ts":
+/*!**********************!*\
+  !*** ./src/index.ts ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _raw_fragment__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./raw/fragment */ \"./src/raw/fragment.ts\");\n/* harmony import */ var _raw_widget__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./raw/widget */ \"./src/raw/widget.ts\");\n/* harmony import */ var _core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./core */ \"./src/core.ts\");\n// import { } from \"../types/window\";\n\n\n\nwindow.Widget = {\n    fragment: _raw_fragment__WEBPACK_IMPORTED_MODULE_0__.createFragment,\n    element: _raw_widget__WEBPACK_IMPORTED_MODULE_1__.createWidget,\n    get: _core__WEBPACK_IMPORTED_MODULE_2__.getControl,\n};\n\n\n//# sourceURL=webpack:///./src/index.ts?");
+
+/***/ }),
+
+/***/ "./src/raw/fragment.ts":
+/*!*****************************!*\
+  !*** ./src/raw/fragment.ts ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   createFragment: () => (/* binding */ createFragment)\n/* harmony export */ });\nObject(function webpackMissingModule() { var e = new Error(\"Cannot find module '../baseWidget.js'\"); e.code = 'MODULE_NOT_FOUND'; throw e; }());\n\nfunction _createFragment(elName, option) {\n    var el = document.createDocumentFragment();\n    var control = {\n        id: option.id || \"\",\n        getEl: function () {\n            return el;\n        },\n    };\n    return control;\n}\nvar createFragment = Object(function webpackMissingModule() { var e = new Error(\"Cannot find module '../baseWidget.js'\"); e.code = 'MODULE_NOT_FOUND'; throw e; }())(_createFragment);\n\n\n//# sourceURL=webpack:///./src/raw/fragment.ts?");
+
+/***/ }),
+
+/***/ "./src/raw/widget.ts":
+/*!***************************!*\
+  !*** ./src/raw/widget.ts ***!
+  \***************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   createWidget: () => (/* binding */ createWidget)\n/* harmony export */ });\nObject(function webpackMissingModule() { var e = new Error(\"Cannot find module '../baseWidget.js'\"); e.code = 'MODULE_NOT_FOUND'; throw e; }());\n\nfunction _createWidget(elName, option) {\n    var _a, _b, _c, _d, _e, _f, _g, _h;\n    var el = document.createElement(elName);\n    el.id = option.id || \"\";\n    el.className = option.class || \"\";\n    el.name = option.name;\n    // el.style = option.style;\n    el.textContent = (_a = option.innerText) !== null && _a !== void 0 ? _a : null;\n    el.value = option.value;\n    el.type = option.type;\n    el.checked = option.checked;\n    el.min = option.min;\n    el.max = option.max;\n    el.step = option.step;\n    el.oninput = (_b = option.onInput) !== null && _b !== void 0 ? _b : null;\n    el.onclick = (_c = option.onClick) !== null && _c !== void 0 ? _c : null;\n    el.onchange = (_d = option.onChange) !== null && _d !== void 0 ? _d : null;\n    el.onsubmit = (_e = option.onSubmit) !== null && _e !== void 0 ? _e : null;\n    el.onblur = (_f = option.onBlur) !== null && _f !== void 0 ? _f : null;\n    el.onkeydown = (_g = option.onKeyDown) !== null && _g !== void 0 ? _g : null;\n    el.onkeypress = (_h = option.onKeyPress) !== null && _h !== void 0 ? _h : null;\n    el.colspan = option.colSpan;\n    el.src = option.src;\n    el.href = option.href;\n    var control = {\n        id: option.id || \"\",\n        getEl: function () {\n            return el;\n        },\n        focus: function () {\n            el.focus();\n        },\n        setValue: function (value) {\n            el.value = value;\n        },\n        innerHTML: function (html) {\n            el.innerHTML = html;\n        },\n    };\n    return control;\n}\nvar createWidget = Object(function webpackMissingModule() { var e = new Error(\"Cannot find module '../baseWidget.js'\"); e.code = 'MODULE_NOT_FOUND'; throw e; }())(_createWidget);\n\n\n//# sourceURL=webpack:///./src/raw/widget.ts?");
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module can't be inlined because the eval devtool is used.
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/index.ts");
+/******/ 	
+/******/ })()
+;

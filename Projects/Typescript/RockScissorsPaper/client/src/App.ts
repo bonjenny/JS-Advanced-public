@@ -1,32 +1,46 @@
-import { PickingButton } from "./PickingButton.js";
-import { Queue } from "./Queue.js";
-import { Game } from "./Game.js";
+import { PickingButton } from "./PickingButton";
+import { Queue } from "./Queue";
+import { Game } from "./Game";
+import { ExtendedHTMLElement } from "./widget/baseWidget";
 
 export default class App {
-  constructor({ $target }) {
+  state: {
+    btnStartElmn: ExtendedHTMLElement;
+    divComputerDataElmn: ExtendedHTMLElement;
+    divPickingBtnsElmn: ExtendedHTMLElement;
+    computerCurrentData: any;
+    timerId: null;
+    items: Queue;
+  };
+  setState: (nextState: any) => void;
+  render: () => void;
+
+  constructor({ $target }: { $target: ExtendedHTMLElement }) {
     this.state = {
-      btnStartElmn: Widget.element("button", {
+      btnStartElmn: window.Widget.element("button", {
         id: "btnStart",
         innerText: "게임 시작",
       }).getEl(),
-      divComputerDataElmn: Widget.element("div", {
+      divComputerDataElmn: window.Widget.element("div", {
         id: "computerData",
         innerText: "시작 버튼을 눌러주세요",
       }).getEl(),
-      divPickingBtns: Widget.element("div", { id: "divPickingbtns" }).getEl(),
+      divPickingBtnsElmn: window.Widget.element("div", {
+        id: "divPickingBtnsElmn",
+      }).getEl(),
       computerCurrentData: undefined,
       timerId: null,
       items: new Queue({
         scissors: new PickingButton({
-          $target: Widget.get("divPickingbtns").getEl(),
+          $target: window.Widget.get("divPickingBtnsElmn").getEl(),
           name: "가위",
         }),
         rock: new PickingButton({
-          $target: Widget.get("divPickingbtns").getEl(),
+          $target: window.Widget.get("divPickingBtnsElmn").getEl(),
           name: "바위",
         }),
         paper: new PickingButton({
-          $target: Widget.get("divPickingbtns").getEl(),
+          $target: window.Widget.get("divPickingBtnsElmn").getEl(),
           name: "보",
         }),
       }),
@@ -53,15 +67,18 @@ export default class App {
     };
 
     this.render = () => {
-      Widget.element("h1", { innerText: "가위바위보게임", parent: $target });
+      window.Widget.element("h1", {
+        innerText: "가위바위보게임",
+        parent: $target,
+      });
       $target.appendChild(this.state.btnStartElmn);
       $target.appendChild(this.state.divComputerDataElmn);
-      $target.appendChild(this.state.divPickingBtns);
+      $target.appendChild(this.state.divPickingBtnsElmn);
 
       this.state.items.forEach((item) => item.disabled(true));
 
       this.state.btnStartElmn.onclick = () => {
-        this.state.btnStartElmn.setAttribute("disabled", true);
+        this.state.btnStartElmn.setAttribute("disabled", "true");
         this.state.items.forEach((item) => item.disabled(false));
 
         this.setState({

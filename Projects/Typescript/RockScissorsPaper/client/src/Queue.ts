@@ -1,16 +1,27 @@
+export class QueueObj {
+  [key: string]: any;
+}
+
 export class Queue {
-  constructor(items) {
+  storage: QueueObj;
+  front: number;
+  rear: number;
+  constructor(items: QueueObj) {
     this.storage = { ...items };
     this.front = 0;
     this.rear = Object.keys(items).length;
   }
 
   size() {
-    return (this.storage[rear] === undefined) ? 0 : (this.rear - this.front + 1);
+    return this.storage[this.rear] === undefined
+      ? 0
+      : this.rear - this.front + 1;
   }
 
-  add(value) {
-    this.size() === 0 ? this.storage['0'] = value : this.storage[++this.rear] = value;
+  add(value: any) {
+    this.size() === 0
+      ? (this.storage["0"] = value)
+      : (this.storage[++this.rear] = value);
   }
 
   popleft() {
@@ -30,22 +41,17 @@ export class Queue {
     return Object.values(this.storage);
   }
 
-  getNext(item) {
+  getNext(item: any) {
     let keys = Object.keys(this.storage);
     for (var i = 0; i < keys.length; i++) {
-      const key = keys[i]
+      const key = keys[i];
       if (this.storage[key] === item) break;
     }
     const key = keys[++i % 3];
     return this.storage[key];
   }
 
-  forEach(Callback) {
+  forEach(Callback: (value: any, index: number, array: any[]) => void) {
     return Object.values(this.storage).forEach(Callback);
   }
 }
-
-
-
-
-

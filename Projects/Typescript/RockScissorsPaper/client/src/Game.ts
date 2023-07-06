@@ -1,11 +1,14 @@
+import { QueueObj } from "./Queue";
+import { ExtendedHTMLElement } from "./widget/baseWidget";
+
 export class Game {
   static state = {
-    items: [],
-    btnStartElmn: undefined,
+    items: new QueueObj(),
+    btnStartElmn: window.Widget.get("btnStart").getEl() as ExtendedHTMLElement,
     computerCurrentData: undefined,
     timerId: undefined,
-    startGame: (item) => {
-      8
+    startGame: (item: any) => {
+      8;
       var next = Game.state.items.getNext(item);
       if (item === Game.state.computerCurrentData) {
         alert("비겼습니다");
@@ -16,18 +19,17 @@ export class Game {
       }
       clearInterval(Game.state.timerId);
 
-      Game.state.btnStartElmn.removeAttribute('disabled');
-      Game.state.items.forEach(item => item.disabled(true));
-    }
-  }
+      Game.state.btnStartElmn.removeAttribute("disabled");
+      Game.state.items.forEach((item: any) => item.disabled(true));
+    },
+  };
 
-  static setState = (nextState) => {
+  static setState = (nextState: any) => {
     Game.state = {
       ...this.state,
-      ...nextState
+      ...nextState,
     };
-  }
+  };
 
-  constructor() {
-  }
+  constructor() {}
 }

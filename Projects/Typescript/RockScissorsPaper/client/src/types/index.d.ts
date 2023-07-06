@@ -1,0 +1,16 @@
+import { Control, WidgetOption } from "../widget/baseWidget";
+
+// index.d.ts
+export {};
+
+interface Widget {
+  fragment: (elName: string, option: WidgetOption) => any;
+  element: (elName: string, option: WidgetOption) => any;
+  get: (id: string) => Control;
+}
+
+declare global {
+  interface Window {
+    Widget: Widget;
+  }
+}
