@@ -6,6 +6,8 @@ export {};
 interface Widget {
   fragment: (elName: string, option: WidgetOption) => any;
   element: (elName: string, option: WidgetOption) => any;
+  todoItem: (elName: string, option: WidgetOption) => any;
+  todoList: (elName: string, option: WidgetOption) => any;
   get: (id: string) => Control;
 }
 

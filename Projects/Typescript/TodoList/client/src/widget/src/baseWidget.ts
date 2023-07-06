@@ -1,3 +1,4 @@
+import todoItemDatas from "../../todoItemDatas";
 import {
   addControl,
   delControl,
@@ -66,6 +67,8 @@ export interface WidgetOption {
   src?: string;
   href?: string;
   parent?: ExtendedHTMLElement;
+  datas?: todoItemDatas[];
+  columns?: WidgetOption;
 }
 
 export interface Control {
@@ -76,6 +79,7 @@ export interface Control {
   innerHTML?: (html: string) => void;
   append?: (childControl: Control) => void;
   remove?: (id: string) => void;
+  reload?: (datas: todoItemDatas[]) => void;
 }
 
 export interface ExtendedHTMLElement extends HTMLElement {
