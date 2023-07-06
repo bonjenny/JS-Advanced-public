@@ -27,9 +27,7 @@ export class PickingButton {
       };
     };
 
-    this.state.$element = document.createElement('button');
-    this.state.$element.className = 'PickingButton';
-    this.state.$element.textContent = this.state.name;
+    this.state.$element = Widget.element("button", { className: "PickingButton", innerText: this.state.name }).getEl();
     $target.appendChild(this.state.$element);
 
     this.render = () => {

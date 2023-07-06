@@ -5,22 +5,22 @@ import { Game } from "./Game.js";
 export default class App {
   constructor({ $target }) {
     this.state = {
-      btnStartElmn: document.getElementById("btnStart"),
-      divComputerDataElmn: document.getElementById("computerData"),
-      divPickingBtns: document.getElementById("divPickingBtns"),
+      btnStartElmn: Widget.element("button", { id: "btnStart", innerText: "게임 시작" }).getEl(),
+      divComputerDataElmn: Widget.element("div", { id: "computerData", innerText: "시작 버튼을 눌러주세요" }).getEl(),
+      divPickingBtns: Widget.element("div", { id: "divPickingbtns" }).getEl(),
       computerCurrentData: undefined,
       timerId: null,
       items: new Queue({
         scissors: new PickingButton({
-          $target: divPickingBtns,
+          $target: Widget.get("divPickingbtns").getEl(),
           name: "가위",
         }),
         rock: new PickingButton({
-          $target: divPickingBtns,
+          $target: Widget.get("divPickingbtns").getEl(),
           name: "바위",
         }),
         paper: new PickingButton({
-          $target: divPickingBtns,
+          $target: Widget.get("divPickingbtns").getEl(),
           name: "보",
         }),
       }),
@@ -47,6 +47,11 @@ export default class App {
     };
 
     this.render = () => {
+      Widget.element("h1", { innerText: "가위바위보게임", parent: $target });
+      $target.appendChild(this.state.btnStartElmn);
+      $target.appendChild(this.state.divComputerDataElmn);
+      $target.appendChild(this.state.divPickingBtns);
+
       this.state.items.forEach(item => item.disabled(true));
 
       this.state.btnStartElmn.onclick = () => {
