@@ -1,5 +1,5 @@
 import { QueueObj } from "./Queue";
-import { ExtendedHTMLElement } from "./widget/baseWidget";
+import { ExtendedHTMLElement } from "./widget/src/baseWidget";
 
 export class Game {
   static state = {

@@ -1,7 +1,7 @@
 import { PickingButton } from "./PickingButton";
 import { Queue } from "./Queue";
 import { Game } from "./Game";
-import { ExtendedHTMLElement } from "./widget/baseWidget";
+import { ExtendedHTMLElement } from "./widget/src/baseWidget";
 
 export default class App {
   state: {

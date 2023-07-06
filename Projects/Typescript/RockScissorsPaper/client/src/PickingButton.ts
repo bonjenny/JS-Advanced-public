@@ -1,4 +1,4 @@
-import { ExtendedHTMLElement } from "./widget/baseWidget";
+import { ExtendedHTMLElement } from "./widget/src/baseWidget";
 
 export class PickingButton {
   static state = {
