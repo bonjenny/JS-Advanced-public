@@ -21,15 +21,20 @@ export default class App {
         id: "btnStart",
         innerText: "게임 시작",
       }).getEl(),
+
       divComputerDataElmn: window.Widget.element("div", {
         id: "computerData",
         innerText: "시작 버튼을 눌러주세요",
       }).getEl(),
+
       divPickingBtnsElmn: window.Widget.element("div", {
         id: "divPickingBtnsElmn",
       }).getEl(),
+
       computerCurrentData: undefined,
+
       timerId: null,
+
       items: new Queue({
         scissors: new PickingButton({
           $target: window.Widget.get("divPickingBtnsElmn").getEl(),
