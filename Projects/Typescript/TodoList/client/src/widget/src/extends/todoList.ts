@@ -25,13 +25,13 @@ function _createTodoList(elName: string = "todoList", option: WidgetOption) {
         id: data.id,
         innerText: data.contents,
         checked: data.done,
-        onchange: (event: MouseEvent) => {
+        onChange: (event: MouseEvent) => {
           data.done = !data.done;
           if (columns.onChange !== undefined) {
             columns.onChange(event);
           }
         },
-        onclick: (event: MouseEvent) => {
+        onClick: (event: MouseEvent) => {
           data.deleted = true;
           if (columns.onClick !== undefined) {
             columns.onClick(event);

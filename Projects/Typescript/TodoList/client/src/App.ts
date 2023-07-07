@@ -46,14 +46,18 @@ export default class App {
       todolistControl: window.Widget.todoList("todoList", {
         id: "todoList",
         datas: [],
-        onchange: () => this.state.renderList(),
-        onclick: () => this.state.deleteTodoitem(),
+        columns: {
+          onChange: () => this.state.renderList(),
+          onClick: () => this.state.deleteTodoitem(),
+        },
       }),
       donelistControl: window.Widget.todoList("doneList", {
         id: "doneList",
         datas: [],
-        onchange: () => this.state.renderList(),
-        onclick: () => this.state.deleteTodoitem(),
+        columns: {
+          onChange: () => this.state.renderList(),
+          onClick: () => this.state.deleteTodoitem(),
+        },
       }),
       renderList: () => {
         this.state.renderTodolist();
@@ -114,7 +118,7 @@ export default class App {
 
       window.Widget.element("input", {
         id: "todoInput",
-        onkeydown: (event: KeyboardEvent) => {
+        onKeyDown: (event: KeyboardEvent) => {
           if (event.keyCode !== 13) return;
           const inputElmn = window.Widget.get("todoInput").getEl();
           this.state.saveTodoitem(inputElmn);
@@ -127,7 +131,7 @@ export default class App {
       window.Widget.element("button", {
         id: "btnSave",
         innerText: "입력",
-        onclick: () => {
+        onClick: () => {
           const inputElmn = window.Widget.get("todoInput").getEl();
           this.state.saveTodoitem(inputElmn);
         },

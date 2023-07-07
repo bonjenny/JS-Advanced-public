@@ -11,7 +11,7 @@ function _createTodoItem(elName: string = "todoItem", option: WidgetOption) {
     id: `todoCheck-${option.id}`,
     type: "checkbox",
     checked: option.checked,
-    onchange: option.onChange,
+    onChange: option.onChange,
     parent: el,
   });
   window.Widget.element("span", {
@@ -23,7 +23,7 @@ function _createTodoItem(elName: string = "todoItem", option: WidgetOption) {
     id: `todoBtn-${option.id}`,
     innerText: "삭제",
     type: "button",
-    onclick: option.onClick,
+    onClick: option.onClick,
     parent: el,
   });
 
