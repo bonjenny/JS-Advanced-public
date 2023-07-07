@@ -8,19 +8,19 @@ import {
 function _createTodoItem(elName: string = "todoItem", option: WidgetOption) {
   var el = window.Widget.element("li", { id: option.id }).getEl();
   window.Widget.element("input", {
-    id: `${option.id}-todoCheck`,
+    id: `todoCheck-${option.id}`,
     type: "checkbox",
     checked: option.checked,
     onchange: option.onChange,
     parent: el,
   });
   window.Widget.element("span", {
-    id: `${option.id}-todoSpan`,
-    innterText: option.value,
+    id: `todoSpan-${option.id}`,
+    innerText: option.innerText,
     parent: el,
   });
   window.Widget.element("button", {
-    id: `${option.id}-todoBtn`,
+    id: `todoBtn-${option.id}`,
     innerText: "삭제",
     type: "button",
     onclick: option.onClick,

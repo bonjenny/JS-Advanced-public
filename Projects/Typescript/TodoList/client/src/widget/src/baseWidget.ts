@@ -49,8 +49,10 @@ export interface WidgetOption {
   class?: string;
   name?: string;
   style?: string;
+  label?: string;
   innerText?: string;
   value?: string;
+  placeholder?: string;
   type?: string;
   checked?: boolean;
   min?: string;
@@ -84,7 +86,9 @@ export interface Control {
 
 export interface ExtendedHTMLElement extends HTMLElement {
   name?: string | undefined;
+  label?: string | undefined;
   value?: string | undefined;
+  placeholder?: string | undefined;
   type?: string | undefined;
   checked?: boolean | undefined;
   min?: string | undefined;

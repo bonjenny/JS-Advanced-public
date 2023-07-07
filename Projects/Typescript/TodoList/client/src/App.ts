@@ -4,18 +4,13 @@ import { Control, ExtendedHTMLElement } from "./widget/src/baseWidget";
 export default class App {
   state: {
     todolist: todoItemDatas[];
-    onKeyDownTodoInput: (
-      elmn: ExtendedHTMLElement,
-      event: KeyboardEvent
-    ) => void;
-    onClickSave: () => void;
-    saveContent: (elmn: ExtendedHTMLElement) => void;
-    getSortedTodoList: (doneObj: { done: boolean }) => todoItemDatas[];
-    renderColumnDone: (data: todoItemDatas) => ExtendedHTMLElement;
-    renderColumnTodo: (data: todoItemDatas) => string;
-    renderColumnDelete: (data: todoItemDatas) => ExtendedHTMLElement;
     todolistControl: Control;
     donelistControl: Control;
+    renderList: () => void;
+    renderTodolist: () => void;
+    renderDonelist: () => void;
+    saveTodoitem: (inputElmn: ExtendedHTMLElement) => void;
+    deleteTodoitem: () => void;
   };
   setState: (nextState: any) => void;
   render: () => void;
@@ -27,91 +22,79 @@ export default class App {
           id: "001",
           contents: "할일",
           done: false,
+          deleted: false,
         },
         {
           id: "002",
           contents: "완료된 할일",
           done: true,
+          deleted: false,
         },
         {
           id: "003",
           contents: "할일2",
           done: false,
+          deleted: false,
         },
         {
           id: "004",
           contents: "완료된 할일2",
           done: true,
+          deleted: false,
         },
       ],
-      onKeyDownTodoInput: (elmn, event) => {
-        if (event.keyCode !== 13) return;
-        this.state.saveContent(elmn);
+      todolistControl: window.Widget.todoList("todoList", {
+        id: "todoList",
+        datas: [],
+        onchange: () => this.state.renderList(),
+        onclick: () => this.state.deleteTodoitem(),
+      }),
+      donelistControl: window.Widget.todoList("doneList", {
+        id: "doneList",
+        datas: [],
+        onchange: () => this.state.renderList(),
+        onclick: () => this.state.deleteTodoitem(),
+      }),
+      renderList: () => {
+        this.state.renderTodolist();
+        this.state.renderDonelist();
       },
-      onClickSave: () => {
-        const elmn = window.Widget.get("todoInput").getEl();
-        this.state.saveContent(elmn);
+      renderTodolist: () => {
+        if (this.state.todolistControl.reload !== undefined) {
+          this.state.todolistControl.reload(
+            this.state.todolist.filter((todoItem) => todoItem.done === false)
+          );
+        }
       },
-      saveContent: (elmn) => {
-        if (!elmn.value) {
+      renderDonelist: () => {
+        if (this.state.donelistControl.reload !== undefined) {
+          this.state.donelistControl.reload(
+            this.state.todolist.filter((todoItem) => todoItem.done === true)
+          );
+        }
+      },
+      saveTodoitem: (inputElmn) => {
+        if (!inputElmn.value) {
           alert("할일을 입력해 주세요");
-          elmn.focus();
+          inputElmn.focus();
           return;
         }
         this.state.todolist.push({
           id: crypto.randomUUID(),
-          contents: elmn.value,
+          contents: inputElmn.value,
           done: false,
+          deleted: false,
         });
-        if (this.state.todolistControl.reload) {
-          this.state.todolistControl.reload(
-            this.state.getSortedTodoList({ done: false })
-          );
-        }
-        elmn.value = "";
-        elmn.focus();
+        this.state.renderTodolist();
+        inputElmn.value = "";
+        inputElmn.focus();
       },
-      getSortedTodoList: ({ done }) => {
-        return this.state.todolist.filter((data) => data.done === done);
+      deleteTodoitem: () => {
+        this.state.todolist = this.state.todolist.filter(
+          (todoItem) => todoItem.deleted === false
+        );
+        this.state.renderList();
       },
-      renderColumnDone: (data) => {
-        return window.Widget.element("input", {
-          checked: data.done,
-          onchange: function () {
-            data.done = !data.done;
-            this.state.todolistControl.reload(
-              this.state.getSortedTodoList({ done: false })
-            );
-            this.state.donelistControl.reload(
-              this.state.getSortedTodoList({ done: true })
-            );
-          },
-        }).getEl();
-      },
-      renderColumnTodo: (data) => {
-        return data.contents;
-      },
-      renderColumnDelete: (data) => {
-        return window.Widget.element("button", {
-          onclick: function () {
-            this.state.todolist.splice(this.state.todolist.indexOf(data), 1);
-            this.state.todolistControl.reload(
-              this.state.getSortedTodoList({ done: false })
-            );
-            this.state.donelistControl.reload(
-              this.state.getSortedTodoList({ done: true })
-            );
-          },
-        }).getEl();
-      },
-      todolistControl: window.Widget.todoList("todoList", {
-        datas: this.state.getSortedTodoList({ done: false }),
-        columns: {},
-      }),
-      donelistControl: window.Widget.todoList("doneList", {
-        datas: this.state.getSortedTodoList({ done: true }),
-        columns: {},
-      }),
     };
 
     this.setState = (nextState) => {
@@ -122,16 +105,41 @@ export default class App {
     };
 
     this.render = () => {
+      const appChild = window.Widget.fragment("", { parent: $target }).getEl();
+
       window.Widget.element("h1", {
         innerText: "TODO 리스트",
-        parent: $target,
+        parent: appChild,
       });
-      const appChild = window.Widget.fragment("", { parent: $target });
 
       window.Widget.element("input", {
         id: "todoInput",
-        onkeydown: this.state.onKeyDownTodoInput,
+        onkeydown: (event: KeyboardEvent) => {
+          if (event.keyCode !== 13) return;
+          const inputElmn = window.Widget.get("todoInput").getEl();
+          this.state.saveTodoitem(inputElmn);
+        },
+        placeholder: "할 일을 입력해주세요.",
+        value: "",
+        parent: appChild,
       });
+
+      window.Widget.element("button", {
+        id: "btnSave",
+        innerText: "입력",
+        onclick: () => {
+          const inputElmn = window.Widget.get("todoInput").getEl();
+          this.state.saveTodoitem(inputElmn);
+        },
+        parent: appChild,
+      });
+
+      appChild.appendChild(this.state.todolistControl.getEl());
+      appChild.appendChild(this.state.donelistControl.getEl());
+
+      this.state.renderList();
+
+      $target.appendChild(appChild);
     };
     this.render();
   }

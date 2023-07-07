@@ -10,10 +10,12 @@ function _createWidget(elName: string, option: WidgetOption) {
   el.id = option.id || "";
   el.className = option.class || "";
   el.name = option.name;
-  // el.style = option.style;
+  el.setAttribute("style", option.style || "");
 
+  el.label = option.label;
   el.textContent = option.innerText ?? null;
   el.value = option.value;
+  el.placeholder = option.placeholder;
   el.type = option.type;
   el.checked = option.checked;
 
