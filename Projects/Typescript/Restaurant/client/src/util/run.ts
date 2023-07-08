@@ -11,10 +11,10 @@ import {
   removeOrder,
 } from "./utils";
 
-var chefs = new ChefList([new Chef("요리사1"), new Chef("요리사2")]);
+var chefs = new ChefList([new Chef("Mark"), new Chef("Jenny")]);
 var servers = new ServerList([
-  new Server("직원1", 1500),
-  new Server("직원2", 3000),
+  new Server("Any", 1500),
+  new Server("Joan", 3000),
 ]);
 
 export function run(order: Order) {

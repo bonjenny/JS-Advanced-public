@@ -50,6 +50,9 @@ function _createWidget(elName: string, option: WidgetOption) {
     innerHTML: function (html: string) {
       el.innerHTML = html;
     },
+    updateContent: function (text: string) {
+      el.innerText = text;
+    },
   };
 
   return control;
