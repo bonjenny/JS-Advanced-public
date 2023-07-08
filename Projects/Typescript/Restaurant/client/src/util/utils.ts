@@ -33,21 +33,16 @@ export function renderCooking(orderId: string, chef: Chef) {
 export function renderCooked(orderId: string) {
   const cookedUl = window.Widget.get("cookedUl");
   const cookedLi = window.Widget.get(orderId);
-
-  window.Widget.get(
-    `info-${orderId}`
-  ).getEl().innerText = `(server를 찾는중..)`;
-  // updateContent
-
+  const cookedSpan = window.Widget.get(`info-${orderId}`);
+  cookedSpan.updateContent(`(server를 찾는중..)`);
   cookedUl.append(cookedLi);
 }
 
 export function renderServing(orderId: string, server: Server) {
   const servingUl = window.Widget.get("servingUl");
   const servingLi = window.Widget.get(orderId);
-
-  window.Widget.get(`info-${orderId}`).getEl().innerText = `(${server.name})`;
-  // updateContent
+  const servingSpan = window.Widget.get(`info-${orderId}`)
+  servingSpan.updateContent(`(${server.name})`);
 
   servingUl.append(servingLi);
 }
