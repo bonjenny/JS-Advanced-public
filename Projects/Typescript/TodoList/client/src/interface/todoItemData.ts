@@ -1,4 +1,4 @@
-export default interface todoItemDatas {
+export default interface todoItemData {
   id: string;
   contents: string;
   done: boolean;

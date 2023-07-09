@@ -1,4 +1,4 @@
-import todoItemDatas from "../../../todoItemDatas";
+import todoItemDatas from "../../../interface/todoItemData";
 import { rawWidget, Control, WidgetOption } from "../baseWidget";
 
 function _createTodoList(elName: string = "todoList", option: WidgetOption) {

@@ -1,23 +1,18 @@
-import todoItemDatas from "./todoItemDatas";
-import { Control, ExtendedHTMLElement } from "./widget/src/baseWidget";
+import todoItemData from "./interface/todoItemData";
+import { renderList, renderTodolist } from "./utils/renderList";
+import { saveTodoItem } from "./utils/saveTodoItem";
+import { ExtendedHTMLElement } from "./widget/src/baseWidget";
 
 export default class App {
   state: {
-    todolist: todoItemDatas[];
-    todolistControl: Control;
-    donelistControl: Control;
-    renderList: () => void;
-    renderTodolist: () => void;
-    renderDonelist: () => void;
-    saveTodoitem: (inputElmn: ExtendedHTMLElement) => void;
-    deleteTodoitem: () => void;
+    todoData: todoItemData[];
   };
   setState: (nextState: any) => void;
   render: () => void;
 
   constructor({ $target }: { $target: ExtendedHTMLElement }) {
     this.state = {
-      todolist: [
+      todoData: [
         {
           id: "001",
           contents: "할일",
@@ -43,62 +38,6 @@ export default class App {
           deleted: false,
         },
       ],
-      todolistControl: window.Widget.todoList("todoList", {
-        id: "todoList",
-        datas: [],
-        columns: {
-          onChange: () => this.state.renderList(),
-          onClick: () => this.state.deleteTodoitem(),
-        },
-      }),
-      donelistControl: window.Widget.todoList("doneList", {
-        id: "doneList",
-        datas: [],
-        columns: {
-          onChange: () => this.state.renderList(),
-          onClick: () => this.state.deleteTodoitem(),
-        },
-      }),
-      renderList: () => {
-        this.state.renderTodolist();
-        this.state.renderDonelist();
-      },
-      renderTodolist: () => {
-        if (this.state.todolistControl.reload !== undefined) {
-          this.state.todolistControl.reload(
-            this.state.todolist.filter((todoItem) => todoItem.done === false)
-          );
-        }
-      },
-      renderDonelist: () => {
-        if (this.state.donelistControl.reload !== undefined) {
-          this.state.donelistControl.reload(
-            this.state.todolist.filter((todoItem) => todoItem.done === true)
-          );
-        }
-      },
-      saveTodoitem: (inputElmn) => {
-        if (!inputElmn.value) {
-          alert("할일을 입력해 주세요");
-          inputElmn.focus();
-          return;
-        }
-        this.state.todolist.push({
-          id: crypto.randomUUID(),
-          contents: inputElmn.value,
-          done: false,
-          deleted: false,
-        });
-        this.state.renderTodolist();
-        inputElmn.value = "";
-        inputElmn.focus();
-      },
-      deleteTodoitem: () => {
-        this.state.todolist = this.state.todolist.filter(
-          (todoItem) => todoItem.deleted === false
-        );
-        this.state.renderList();
-      },
     };
 
     this.setState = (nextState) => {
@@ -121,7 +60,7 @@ export default class App {
         onKeyDown: (event: KeyboardEvent) => {
           if (event.keyCode !== 13) return;
           const inputElmn = window.Widget.get("todoInput").getEl();
-          this.state.saveTodoitem(inputElmn);
+          saveTodoItem(inputElmn, this.state.todoData);
         },
         placeholder: "할 일을 입력해주세요.",
         value: "",
@@ -133,15 +72,31 @@ export default class App {
         innerText: "입력",
         onClick: () => {
           const inputElmn = window.Widget.get("todoInput").getEl();
-          this.state.saveTodoitem(inputElmn);
+          saveTodoItem(inputElmn, this.state.todoData);
         },
         parent: appChild,
       });
 
-      appChild.appendChild(this.state.todolistControl.getEl());
-      appChild.appendChild(this.state.donelistControl.getEl());
+      window.Widget.todoList("todoList", {
+        id: "todoList",
+        datas: [],
+        columns: {
+          onChange: () => renderList(this.state.todoData),
+          onClick: () => renderList(this.state.todoData),
+        },
+        parent: appChild,
+      });
+      window.Widget.todoList("doneList", {
+        id: "doneList",
+        datas: [],
+        columns: {
+          onChange: () => renderList(this.state.todoData),
+          onClick: () => renderList(this.state.todoData),
+        },
+        parent: appChild,
+      });
 
-      this.state.renderList();
+      renderList(this.state.todoData);
 
       $target.appendChild(appChild);
     };

@@ -5,55 +5,40 @@ import { ExtendedHTMLElement } from "./widget/src/baseWidget";
 
 export default class App {
   state: {
-    btnStartElmn: ExtendedHTMLElement;
-    divComputerDataElmn: ExtendedHTMLElement;
     divPickingBtnsElmn: ExtendedHTMLElement;
-    computerCurrentData: any;
-    timerId: null;
     items: Queue;
+    computerCurrentData: PickingButton | undefined;
+    timerId: null;
   };
   setState: (nextState: any) => void;
   render: () => void;
 
   constructor({ $target }: { $target: ExtendedHTMLElement }) {
     this.state = {
-      btnStartElmn: window.Widget.element("button", {
-        id: "btnStart",
-        innerText: "게임 시작",
-      }).getEl(),
-
-      divComputerDataElmn: window.Widget.element("div", {
-        id: "computerData",
-        innerText: "시작 버튼을 눌러주세요",
-      }).getEl(),
-
       divPickingBtnsElmn: window.Widget.element("div", {
-        id: "divPickingBtnsElmn",
+        id: "divPickingBtns",
       }).getEl(),
-
-      computerCurrentData: undefined,
-
-      timerId: null,
 
       items: new Queue({
         scissors: new PickingButton({
-          $target: window.Widget.get("divPickingBtnsElmn").getEl(),
           name: "가위",
+          $target: window.Widget.get("divPickingBtns").getEl(),
         }),
         rock: new PickingButton({
-          $target: window.Widget.get("divPickingBtnsElmn").getEl(),
           name: "바위",
+          $target: window.Widget.get("divPickingBtns").getEl(),
         }),
         paper: new PickingButton({
-          $target: window.Widget.get("divPickingBtnsElmn").getEl(),
           name: "보",
+          $target: window.Widget.get("divPickingBtns").getEl(),
         }),
       }),
+      computerCurrentData: undefined,
+      timerId: null,
     };
 
     Game.setState({
       items: this.state.items,
-      btnStartElmn: this.state.btnStartElmn,
     });
 
     PickingButton.setState({
@@ -76,14 +61,25 @@ export default class App {
         innerText: "가위바위보게임",
         parent: $target,
       });
-      $target.appendChild(this.state.btnStartElmn);
-      $target.appendChild(this.state.divComputerDataElmn);
-      $target.appendChild(this.state.divPickingBtnsElmn);
+
+      window.Widget.element("button", {
+        id: "btnStart",
+        innerText: "게임 시작",
+        parent: $target,
+      });
+
+      window.Widget.element("div", {
+        id: "divComputerData",
+        innerText: "시작 버튼을 눌러주세요",
+        parent: $target,
+      });
+
+      $target.append(this.state.divPickingBtnsElmn);
 
       this.state.items.forEach((item) => item.disabled(true));
 
-      this.state.btnStartElmn.onclick = () => {
-        this.state.btnStartElmn.setAttribute("disabled", "true");
+      window.Widget.get("btnStart").getEl().onclick = () => {
+        window.Widget.get("btnStart").getEl().setAttribute("disabled", "true");
         this.state.items.forEach((item) => item.disabled(false));
 
         this.setState({
@@ -94,8 +90,11 @@ export default class App {
                 this.state.computerCurrentData
               ),
             });
-            this.state.divComputerDataElmn.textContent =
-              this.state.computerCurrentData.state.name;
+            window.Widget.get("divComputerData").updateContent(
+              this.state.computerCurrentData !== undefined
+                ? this.state.computerCurrentData.state.name
+                : ""
+            );
           }, 100),
         });
       };

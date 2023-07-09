@@ -1,4 +1,4 @@
-import todoItemDatas from "../../todoItemDatas";
+import todoItemDatas from "../../interface/todoItemData";
 import {
   addControl,
   delControl,
@@ -82,6 +82,7 @@ export interface Control {
   append?: (childControl: Control) => void;
   remove?: (id: string) => void;
   reload?: (datas: todoItemDatas[]) => void;
+  updateContent?: (text: string) => void;
 }
 
 export interface ExtendedHTMLElement extends HTMLElement {

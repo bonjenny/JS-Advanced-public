@@ -78,6 +78,7 @@ export interface Control {
   innerHTML?: (html: string) => void;
   append?: (childControl: Control) => void;
   remove?: (id: string) => void;
+  updateContent?: (text: string) => void;
 }
 
 export interface ExtendedHTMLElement extends HTMLElement {
